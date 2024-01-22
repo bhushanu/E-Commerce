@@ -1,19 +1,22 @@
 from django.shortcuts import render
-from rest_framework import viewsets
-from .models import Order
+from .models import Order, Product
 from .serializers import OrderSerializer
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
+class OrderView(APIView):
 
+    def get(self, request, pk):
 
+        order = Order.objects.get(pk=pk)
+        serializer = OrderSerializer(order)
+        return Response({
+            'suceess': True,
+            'message': 'Success',
+            'data': serializer.data
+        })
 
-# Using ViewSet 
+    def post(self, request):
 
-# class OrderViewSet(viewsets.ModelViewSet):
-#     queryset = Order.objects.all()
-#     serializer_class = OrderSerializer
-
-
-
-
+        product = Product.objects.get(request.data.get('product.id'))

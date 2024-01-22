@@ -13,16 +13,15 @@ class ProductView(APIView):
 
         return Response(serializer.data)
 
-    def post(self, request, pk, *args, **kwargs):
-        if pk is not None:
-            serializer = ProductSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response({
-                    'success': True,
-                    'message': 'Success',
-                    'data': serializer.data
-                })
+    def post(self, request, *args, **kwargs):
+        serializer = ProductSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'success': True,
+                'message': 'Success',
+                'data': serializer.data
+            })
         return Response({
             'success': False,
             'message': 'Failed',
